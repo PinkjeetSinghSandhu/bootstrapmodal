@@ -13,21 +13,42 @@
       if ($_SERVER["REQUEST_METHOD"] == 'POST'){
         $username = test_input($_POST['username']);
         $password = test_input($_POST['password']);
+        
+        $servername = "localhost";
+        $dbUsername = "root";
+        $dbPassword = "";
+        $dbname = "send";
 
-        require_once 'fetch.php';
-        $checkIfAdminIsRegistered = $fetch->accessAdmin($username);
+        // Create connection
+        $conn = mysqli_connect($servername, $dbUsername, $dbPassword, $dbname);
 
-        if(empty($username) || empty($password)){
-        $response = ['status' => 0, 'message' => "You forgot to type in the required values !"];
-        }elseif(!($checkIfAdminIsRegistered)){
-          $response = ['status' => 0, 'message' => "Invalid Username"];
-        }else{
-          if (password_verify($password, $checkIfAdminIsRegistered[0]['password'])){
-            $response = ['status' => 1, 'message' => 'Successful'];
-          }else{
-            $response = ['status' => 0, 'message' => 'Invalid Login Details'];
-          }
+        // Check connection
+        if (!$conn) {
+          die("Connection failed: " . mysqli_connect_error());
         }
+
+        $sql = "SELECT * FROM admin";
+        $result = mysqli_query($conn, $sql);
+        $row = $result->fetch_row();
+
+        echo $row;
+
+        mysqli_close($conn);
+        
+        
+        
+        // if(empty($username) || empty($password)){
+        //   $response = ['status' => 0, 'message' =>$result->fetch_assoc()];
+        //   $conn->close();
+        // }elseif(!($mysqli)){
+        //   $response = ['status' => 0, 'message' => "Invalid Username"];
+        // }else{
+        //   if (password_verify($password, $mysqli[0]['password'])){
+        //     $response = ['status' => 1, 'message' => 'Successful'];
+        //   }else{
+        //     $response = ['status' => 0, 'message' => 'Invalid Login Details'];
+        //   }
+        // }
       }
       echo json_encode($response);
     break;

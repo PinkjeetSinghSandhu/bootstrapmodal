@@ -32,7 +32,7 @@
               </div>
 
               <div class="pb-3">
-                <input type="text" name="password" placeholder="Enter password" class="btn-block">
+                <input type="password" name="password" placeholder="Enter password" class="btn-block">
               </div>
               
               <div id="errorBox"></div>

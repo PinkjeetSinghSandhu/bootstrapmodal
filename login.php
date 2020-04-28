@@ -10,9 +10,11 @@ $errormsg1=" "; $errormsg2=" ";
 		$name=$_POST['name'];
 		$password=$_POST['password'];
     $check=isset($_POST['check']);
+		
 		$query = "SELECT name,id from user WHERE name ='$name'";
 		$result= mysqli_query($conn, $query);
     $rows=mysqli_fetch_array($result);
+		
 		$passwordquery = "SELECT password from user WHERE name='$name'";
 		$passwordresult= mysqli_query($conn, $passwordquery);
     $row=mysqli_fetch_array($passwordresult);
