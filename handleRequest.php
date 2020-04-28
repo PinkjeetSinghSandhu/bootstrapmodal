@@ -1,10 +1,11 @@
 <?php
   $requestingPage = $_GET['task'];
 
+  // For securit measures
   function test_input($data) {
     $data = trim($data);
     $data = stripslashes($data);
-    $data = htmlspecialchars($data);
+    $data = htmlspecialchars($data); // This removes any special character if user provides one.
     return $data;
   }
 
@@ -44,7 +45,7 @@
 
         }
       }
-      echo json_encode($response);
+      echo json_encode($response); // This gets all responses.
     break;
 
   endswitch;

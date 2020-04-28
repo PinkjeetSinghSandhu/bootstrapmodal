@@ -65,10 +65,12 @@
           })
           .done(function(response){
             if (response.status){
+              // If response status gotten from the handleRequest is = 1
               $("#errorBox").removeClass('alert alert-danger');
               $("#errorBox").addClass('alert alert-success');
               $("#errorBox").html(response.message);
             }else{
+              // If response status gotten from the handleRequest is = 0
               $("#errorBox").removeClass('alert alert-danger');
               $("#errorBox").addClass('alert alert-danger');
               $("#errorBox").html(response.message);
