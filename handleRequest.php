@@ -11,44 +11,38 @@
   switch ($requestingPage):
     case "adminLogin":
       if ($_SERVER["REQUEST_METHOD"] == 'POST'){
-        $username = test_input($_POST['username']);
-        $password = test_input($_POST['password']);
+        $loginName = test_input($_POST['username']);
+        $loginPassword = test_input($_POST['password']);
         
         $servername = "localhost";
-        $dbUsername = "root";
-        $dbPassword = "";
-        $dbname = "send";
+        $username = "root";
+        $password = "";
+        $db = "send";
 
         // Create connection
-        $conn = mysqli_connect($servername, $dbUsername, $dbPassword, $dbname);
+        $conn = new mysqli($servername, $username, $password, $db);
 
         // Check connection
-        if (!$conn) {
-          die("Connection failed: " . mysqli_connect_error());
+        if ($conn->connect_error) {
+          die("Connection failed: " . $conn->connect_error);
+        }else{
+          // If connection is okay
+          $sql = "SELECT * FROM admin"; //Admin a table in the database
+          $result = $conn->query($sql);
+
+          if(empty($loginName)){
+            $response = ['status' => 0, 'message' =>"Sorry, username is required."];
+          }elseif(empty($loginPassword)){
+            $response = ['status' => 0, 'message' =>"Sorry, password is required."];
+          }elseif($loginName != $result->fetch_row()[1]){
+            $response = ['status' => 0, 'message' =>"Invalid login detail."];
+          }elseif($loginPassword != $result->fetch_row()[2]){
+            $response = ['status' => 0, 'message' =>"Invalid login detail."];
+          }elseif($loginName != $result->fetch_row()[1] && $loginPassword != $result->fetch_row()[2]){
+            $response = ['status' => 0, 'message' =>"You successfully logged in."];
+          }
+
         }
-
-        $sql = "SELECT * FROM admin";
-        $result = mysqli_query($conn, $sql);
-        $row = $result->fetch_row();
-
-        echo $row;
-
-        mysqli_close($conn);
-        
-        
-        
-        // if(empty($username) || empty($password)){
-        //   $response = ['status' => 0, 'message' =>$result->fetch_assoc()];
-        //   $conn->close();
-        // }elseif(!($mysqli)){
-        //   $response = ['status' => 0, 'message' => "Invalid Username"];
-        // }else{
-        //   if (password_verify($password, $mysqli[0]['password'])){
-        //     $response = ['status' => 1, 'message' => 'Successful'];
-        //   }else{
-        //     $response = ['status' => 0, 'message' => 'Invalid Login Details'];
-        //   }
-        // }
       }
       echo json_encode($response);
     break;
