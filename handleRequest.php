@@ -30,15 +30,15 @@
           $sql = "SELECT * FROM admin"; //Admin a table in the database
           $result = $conn->query($sql);
 
-          if(empty($loginName)){
+          if(empty($loginName)){ // If user didn't provide any name
             $response = ['status' => 0, 'message' =>"Sorry, username is required."];
-          }elseif(empty($loginPassword)){
+          }elseif(empty($loginPassword)){ // If user didn't provide a password
             $response = ['status' => 0, 'message' =>"Sorry, password is required."];
-          }elseif($loginName != $result->fetch_row()[1]){
+          }elseif($loginName != $result->fetch_row()[1]){ // If user's name isn't the same with the one in the database
             $response = ['status' => 0, 'message' =>"Invalid login detail."];
-          }elseif($loginPassword != $result->fetch_row()[2]){
+          }elseif($loginPassword != $result->fetch_row()[2]){ // If user's password isn't the same with the one in the database
             $response = ['status' => 0, 'message' =>"Invalid login detail."];
-          }elseif($loginName != $result->fetch_row()[1] && $loginPassword != $result->fetch_row()[2]){
+          }elseif($loginName != $result->fetch_row()[1] && $loginPassword != $result->fetch_row()[2]){ //If everything is okay.
             $response = ['status' => 0, 'message' =>"You successfully logged in."];
           }
 
